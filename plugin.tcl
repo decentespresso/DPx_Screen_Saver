@@ -27,18 +27,18 @@ namespace eval ::plugins::${plugin_name} {
     }
 
     proc create_mysaver {} {
-        if {[file exists [homedir]/MySaver/${::screen_size_width}x${::screen_size_height}] != 1} {
-            set path [homedir]/MySaver/${::screen_size_width}x${::screen_size_height}
+        if {[file exists [data_directory]/MySaver/${::screen_size_width}x${::screen_size_height}] != 1} {
+            set path [data_directory]/MySaver/${::screen_size_width}x${::screen_size_height}
             file mkdir $path
             file attributes $path
         }
     }
 
     proc message {args} {
-        if {[file exists [homedir]/MySaver/${::screen_size_width}x${::screen_size_height}] != 1} {
+        if {[file exists [data_directory]/MySaver/${::screen_size_width}x${::screen_size_height}] != 1} {
             return "I could not find MySaver/${::screen_size_width}x${::screen_size_height} folder\r If you tap  **HERE** I'll create them for you"
         }
-        set dir "[homedir]/MySaver/${::screen_size_width}x${::screen_size_height}"
+        set dir "[data_directory]/MySaver/${::screen_size_width}x${::screen_size_height}"
         set file_list [glob -nocomplain "$dir/*.jpg"]
         if {[llength $file_list] == 0} {
             return "I found your MySaver/${::screen_size_width}x${::screen_size_height} folder, but no .jpg files\r\rOnce you have added .jpg image files, restart the app\r to direct the screen saver settings to your new .jpg images\r\rEnsure you use .jpg image files\r${::screen_size_width} pixels wide & ${::screen_size_height} pixels high\rso they fit your display correctly"
@@ -47,10 +47,10 @@ namespace eval ::plugins::${plugin_name} {
     }
 
     proc check_MySaver_exists {args} {
-        set dir "[homedir]/MySaver"
+        set dir "[data_directory]/MySaver"
         set file_list [glob -nocomplain "$dir/*"]
         if {[llength $file_list] != 0} {
-            set_de1_screen_saver_directory "[homedir]/MySaver"
+            set_de1_screen_saver_directory "[data_directory]/MySaver"
         }
         add_de1_button "saver sleep descaling cleaning" {say [translate {awake}] $::settings(sound_button_in); set_next_page off off; page_show off; start_idle; de1_send_waterlevel_settings; } 0 0 2560 1600
 
